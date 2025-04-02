@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+// Raw hospital data (Replace with API call if needed)
 const mockHospitals = [
   {
     id: '1',
@@ -28,15 +29,29 @@ const HospitalCollaboration = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Commented-out API fetch section (Uncomment when API is ready)
+  /*
+  useEffect(() => {
+    fetch('https://api.example.com/hospitals')
+      .then(response => response.json())
+      .then(data => setHospitals(data))
+      .catch(error => console.error('Error fetching hospitals:', error));
+  }, []);
+  */
+
   const handleCollaborate = (hospitalId) => {
     navigate(`/hospitals/${hospitalId}`);
+  };
+
+  const handleManage = (hospitalId) => {
+    navigate(`/hospitals/${hospitalId}/manage-branch`);
   };
 
   return (
     <div className="max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-primary mb-4">Hospital Collaboration</h1>
-        
+
         <div className="flex gap-4 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -48,7 +63,7 @@ const HospitalCollaboration = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          
+
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
             className="px-4 py-2 bg-secondary text-primary rounded-lg flex items-center gap-2 hover:bg-opacity-90"
@@ -129,12 +144,20 @@ const HospitalCollaboration = () => {
                   </span>
                 ))}
               </div>
-              <button
-                onClick={() => handleCollaborate(hospital.id)}
-                className="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition-colors"
-              >
-                Collaborate
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleCollaborate(hospital.id)}
+                  className="flex-1 bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                  Collaborate
+                </button>
+                <button
+                  onClick={() => handleManage(hospital.id)}
+                  className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                  Manage
+                </button>
+              </div>
             </div>
           </div>
         ))}
